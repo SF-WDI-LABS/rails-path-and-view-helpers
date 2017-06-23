@@ -107,17 +107,6 @@ There's also an even shorter syntax!
 
 
 
-> Remember: run `rails routes` and look at the Prefix column to see what `_path` helpers are available.
-
-| Path helper          | using this path helper with link_to in erb |
-|---------------------| -------------------------------------------|
-| `turkeys_path`        | `link_to "view all turkeys", turkeys_path` |
-| `new_turkey_path`     | `link_to "create a new turkey", new_turkey_path` |
-| `edit_turkey_path`    | `link_to "edit this turkey", edit_turkey @turkey` |
-| `turkey_path`         | `link_to "view this turkey", turkey_path @turkey` |
-
-
-
 ## View Helpers
 
 Rails provides a huge swath of helpers designed to make it more convenient to generate HTML for your views, especially HTML related to your resources.  These view helpers also enforce the Rails way by automatically setting some attributes inside the HTML.  
@@ -164,9 +153,16 @@ Image delete button
 #    </form>"
 ```
 
+> Remember: run `rails routes` and look at the Prefix column to see what `_path` helpers are available.
+
+| Path helper          | using this path helper with link_to in erb |
+|---------------------| -------------------------------------------|
+| `turkeys_path`        | `link_to "view all turkeys", turkeys_path` |
+| `new_turkey_path`     | `link_to "create a new turkey", new_turkey_path` |
+| `edit_turkey_path`    | `link_to "edit this turkey", edit_turkey @turkey` |
+| `turkey_path`         | `link_to "view this turkey", turkey_path @turkey` |
 
 ##### PUT, PATCH, DELETE
-
 
 Some browsers don't support PUT, PATCH & DELETE as form submission methods.  Rails however has a _work-around_ for this.  
 
@@ -223,10 +219,10 @@ We'll mostly be working with resources, so it's important to get some exposure t
 1) You build up a form in ERB.
 
 ```erb
-<%= form_for @article, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+<%= form_for @article do |f| %>
   <%= f.text_field :title %>
   <%= f.text_area :body, size: "60x12" %>
-  <%= f.submit "Create" %>
+  <%= f.submit "Submit" %>
 <% end %>
 ```
 
@@ -239,7 +235,7 @@ Each line inside the form will generate a label or an input.  Most of these `f._
 Note that when the HTML is generated, the **name** HTML attribute for each form `input` will be a combination of the model name and the attribute symbol.
 
 ```html
-<form accept-charset="UTF-8" action="/articles" method="post" class="nifty_form">
+<form accept-charset="UTF-8" action="/articles" method="post">
   <input id="article_title" name="article[title]" type="text" />
   <textarea id="article_body" name="article[body]" cols="60" rows="12"></textarea>
   <input name="commit" type="submit" value="Create" />
@@ -268,8 +264,7 @@ private
 
 # Using a private method to encapsulate the permissible parameters
 # is a good pattern since you'll be able to reuse the same
-# permit list between create and update. Also, you can specialize
-# this method with per-user checking of permissible attributes.
+# permit list between create and update.
 def article_params
   params.require(:article).permit(:title, :body)
 end
