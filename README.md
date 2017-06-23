@@ -301,7 +301,6 @@ Research one of the methods below, and prepare to give a 2 sentence explanation 
 
 ### Closing Thoughts
 
-- Describe how layouts, view templates, and partials work together.
 - How can we figure out what path helpers are available?
 - Why would we use `form_for` and `link_to`?
 - Where would you look for syntax for Rails form helpers?
