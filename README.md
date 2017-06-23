@@ -40,13 +40,13 @@ edit_turkey GET    /turkeys/:id/edit(.:format) turkeys#edit
             DELETE /turkeys/:id(.:format)      turkeys#destroy
 ```
 
-The **Prefix** on the left clues us in to the available URL and path helpers.  
+The **Prefix** column on the left helps us see the available URL and path helpers.  
 
-Just taking the first line, we can tell that a `turkeys_path` helper exists. This method will return the path that corresponds to the index route for all turkeys (`'/turkeys`).  
+Based on the `turkeys` prefix from the first row, we can tell that a `turkeys_path` helper exists. This method will return the path that corresponds to the index route for all turkeys (`'/turkeys`).  
 
 Looking further down the line, we can see following helpers exist: `new_turkey_path`, `edit_turkey_path`, `turkey_path`.
 
-Some of those routes require an **id**.  For those helpers, we'll pass an argument to tell the helper how to fill in the id portion of the path.  
+In the URI Pattern column, we can see that some of those paths require an **id**.  For those routes, we'll pass an argument to the helper so it can fill in the `:id` portion of the path.  
 
 ```
 # examples
@@ -106,6 +106,18 @@ There's also an even shorter syntax!
 ```
 
 
+
+> Remember: run `rails routes` and look at the Prefix column to see what `_path` helpers are available.
+
+| Path helper          | using this path helper with link_to in erb |
+|---------------------| -------------------------------------------|
+| `turkeys_path`        | `link_to "view all turkeys", turkeys_path` |
+| `new_turkey_path`     | `link_to "create a new turkey", new_turkey_path` |
+| `edit_turkey_path`    | `link_to "edit this turkey", edit_turkey @turkey` |
+| `turkey_path`         | `link_to "view this turkey", turkey_path @turkey` |
+
+
+
 ## View Helpers
 
 Rails provides a huge swath of helpers designed to make it more convenient to generate HTML for your views, especially HTML related to your resources.  These view helpers also enforce the Rails way by automatically setting some attributes inside the HTML.  
@@ -153,35 +165,12 @@ Image delete button
 ```
 
 
-#### PUT, PATCH, DELETE
+##### PUT, PATCH, DELETE
 
 
 Some browsers don't support PUT, PATCH & DELETE as form submission methods.  Rails however has a _work-around_ for this.  
 
 Rails adds a hidden input field with the name `_method`. Rails sets the actual method of the form to "post" but internally changes the request type based on the hidden field before the request gets to the routes.  
-
-```erb
-form_tag(search_path, method: "patch")
-```
-
-```html
-<form accept-charset="UTF-8" action="/search" method="post">
-  <input name="_method" type="hidden" value="patch" />
-  <input name="utf8" type="hidden" value="&#x2713;" />
-  <input name="authenticity_token" type="hidden" value="f755bb0ed134b76c432144748a6d4b7a7ddf2b71" />
-  ...
-</form>
-```
-
-> Remember: run `rails routes` and look at the Prefix column to see what `_path` helpers are available.
-
-| Path helper          | using this path helper  with link_to |
-|---------------------| -------------------------------------------|
-| `turkeys_path`        | `link_to "view all turkeys", turkeys_path` |
-| `new_turkey_path`     | `link_to "create a new turkey", new_turkey_path` |
-| `edit_turkey_path`    | `link_to "edit this turkey", edit_turkey @turkey` |
-| `turkey_path`         | `link_to "view this turkey", turkey_path @turkey ` |
-| `turkey_path`         | `link_to "view this turkey", turkey_path 12` |
 
 ### Form Helpers
 
@@ -285,6 +274,8 @@ def article_params
   params.require(:article).permit(:title, :body)
 end
 ```
+
+Rails 5.1  also added [`form_with`](http://edgeguides.rubyonrails.org/5_1_release_notes.html#unification-of-form-for-and-form-tag-into-form-with), which can be used in resource-based situations like `form_for` and for more general forms like `form_tag`.
 
 #### Independent Practice: View Helper Research
 
